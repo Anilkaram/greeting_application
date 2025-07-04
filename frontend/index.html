@@ -120,9 +120,8 @@
             const responseDiv = document.getElementById('response');
             responseDiv.style.opacity = 0;
             
-            // The backend will run on port 5000.
-            // In a real DevOps pipeline, this URL would be a configuration variable.
-            const apiUrl = `http://localhost:5000/api/greet?name=${name}`;
+            // Use a relative path so the frontend container or web server can proxy to the backend
+            const apiUrl = `/api/greet?name=${name}`;
 
             try {
                 const response = await fetch(apiUrl);
