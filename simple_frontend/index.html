@@ -145,6 +145,12 @@
             <button onclick="getGreeting()">Greet Me</button>
         </div>
         <div id="response"></div>
+        <div id="greet-popup" class="greet-popup" style="display:none;">
+            <div class="greet-popup-content">
+                <span class="greet-popup-close" onclick="closePopup()">&times;</span>
+                <div id="greet-popup-message"></div>
+            </div>
+        </div>
         <div class="footer">&copy; 2025 Greeting Service &mdash; Powered by Python &amp; Nginx</div>
     </div>
     <script>
@@ -158,7 +164,8 @@
                 if (!res.ok) throw new Error('Network error');
                 const data = await res.json();
                 setTimeout(() => {
-                    responseDiv.textContent = data.greeting;
+                    responseDiv.textContent = '';
+                    showPopup(data.greeting);
                     responseDiv.style.opacity = 1;
                 }, 200);
             } catch (e) {
@@ -168,6 +175,75 @@
                 }, 200);
             }
         }
+
+        function showPopup(message) {
+            const popup = document.getElementById('greet-popup');
+            const msgDiv = document.getElementById('greet-popup-message');
+            msgDiv.textContent = message;
+            popup.style.display = 'flex';
+            setTimeout(() => {
+                popup.classList.add('show');
+            }, 10);
+        }
+
+        function closePopup() {
+            const popup = document.getElementById('greet-popup');
+            popup.classList.remove('show');
+            setTimeout(() => {
+                popup.style.display = 'none';
+            }, 300);
+        }
     </script>
+    <style>
+        .greet-popup {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0; top: 0; width: 100vw; height: 100vh;
+            background: rgba(0,0,0,0.45);
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.3s;
+            opacity: 0;
+        }
+        .greet-popup.show {
+            display: flex;
+            opacity: 1;
+        }
+        .greet-popup-content {
+            background: linear-gradient(135deg, #00c6ff 0%, #0072ff 100%);
+            color: #fff;
+            padding: 36px 32px 28px 32px;
+            border-radius: 18px;
+            box-shadow: 0 8px 32px #00c6ff44;
+            min-width: 260px;
+            max-width: 90vw;
+            text-align: center;
+            position: relative;
+            animation: popupIn 0.4s;
+        }
+        @keyframes popupIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        .greet-popup-close {
+            position: absolute;
+            top: 10px; right: 18px;
+            font-size: 2em;
+            color: #fff;
+            cursor: pointer;
+            font-weight: 700;
+            transition: color 0.2s;
+        }
+        .greet-popup-close:hover {
+            color: #232526;
+        }
+        #greet-popup-message {
+            font-size: 1.4em;
+            font-weight: 700;
+            margin-top: 10px;
+            letter-spacing: 0.5px;
+        }
+    </style>
 </body>
 </html>
