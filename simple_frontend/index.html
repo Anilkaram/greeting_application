@@ -3,17 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simple Greeting Frontend</title>
+    <title>Greeting Service</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .footer {
+            margin-top: 40px;
+            color: #aaa;
+            font-size: 0.98em;
+            text-align: center;
+            letter-spacing: 0.2px;
+        }
+        .logo {
+            width: 48px;
+            height: 48px;
+            margin-bottom: 10px;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
+        <img src="https://img.icons8.com/color/96/handshake.png" alt="Greeting Logo" class="logo"/>
         <h1>Greeting Service</h1>
-        <div class="subtitle">Enter your name to get a personalized greeting from the backend API.</div>
+        <div class="subtitle">Enter your name to get a personalized greeting from our backend API.<br>Experience a modern, production-ready web UI.</div>
         <div class="input-group">
-            <input type="text" id="nameInput" placeholder="For example, Alice">
+            <input type="text" id="nameInput" placeholder="For example, Alice" autocomplete="off" autofocus>
             <button onclick="getGreeting()">Greet Me</button>
         </div>
         <div id="response"></div>
+        <div class="footer">&copy; 2025 Greeting Service &mdash; Powered by Python &amp; Nginx</div>
     </div>
     <script>
         async function getGreeting() {
