@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Frontend</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #6a11cb;
+            --secondary-color: #2575fc;
+            --background-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --border-radius: 12px;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: var(--background-gradient);
+            color: #333;
+        }
+
+        .container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 50px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .container:hover {
+            transform: translateY(-5px);
+        }
+
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        p {
+            color: #7f8c8d;
+            margin-bottom: 30px;
+        }
+
+        .input-group {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        input[type="text"] {
+            padding: 12px 15px;
+            width: 250px;
+            border-radius: var(--border-radius);
+            border: 1px solid #ddd;
+            margin-right: 10px;
+            font-size: 1em;
+            transition: all 0.3s ease;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(106, 17, 203, 0.2);
+        }
+
+        button {
+            padding: 12px 25px;
+            border: none;
+            background-image: linear-gradient(to right, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+        }
+
+        #response {
+            margin-top: 30px;
+            font-size: 1.2em;
+            color: var(--primary-color);
+            font-weight: 600;
+            min-height: 30px;
+            transition: opacity 0.5s ease-in-out;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Greeting Service</h1>
+        <p>Enter your name to get a greeting from the backend API.</p>
+        <div class="input-group">
+            <input type="text" id="nameInput" placeholder="For example, Alice">
+            <button onclick="getGreeting()">Greet Me</button>
+        </div>
+        <div id="response"></div>
+    </div>
+
+    <script>
+        async function getGreeting() {
+            const name = document.getElementById('nameInput').value || 'World';
+            const responseDiv = document.getElementById('response');
+            responseDiv.style.opacity = 0;
+            
+            // The backend will run on port 5000.
+            // In a real DevOps pipeline, this URL would be a configuration variable.
+            const apiUrl = `http://localhost:5000/api/greet?name=${name}`;
+
+            try {
+                const response = await fetch(apiUrl);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                setTimeout(() => {
+                    responseDiv.textContent = data.greeting;
+                    responseDiv.style.opacity = 1;
+                }, 300);
+            } catch (error) {
+                setTimeout(() => {
+                    responseDiv.textContent = `Error: Could not connect to the backend.`;
+                    responseDiv.style.opacity = 1;
+                }, 300);
+                console.error('Fetch error:', error);
+            }
+        }
+    </script>
+
+</body>
+</html>

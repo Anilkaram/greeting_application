@@ -1,0 +1,5 @@
+# requirements.txt
+# This file lists the Python packages required by the backend application.
+
+Flask
+Flask-Cors
